@@ -31,13 +31,35 @@ A secure file sharing platform built with Django REST Framework, featuring:
 
 ## 📁 Folder Structure
 
+```
 secure_file_share/
-├── users/ # CustomUser model, signup/login, verify
-├── files/ # File upload, listing, download
-├── secure_file_share/ # Main Django project settings
-├── manage.py
-├── requirements.txt
-└── secure_file_share_collection.json ✅ (Postman Collection)
+├── users/                        # 🔑 User management: Signup, Login, Verify
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+│
+├── files/                        # 📁 File upload, list, download (OPS/Client)
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   └── urls.py
+│
+├── secure_file_share/           # ⚙️ Django settings & URL config
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── templates/                   # 📧 Email templates (verification & links)
+├── static/                      # 🌐 Static files (DRF, Admin CSS/JS)
+├── media/                       # 🗂️ Uploaded files saved here
+│
+├── manage.py                    # 🧠 Django management script
+├── requirements.txt             # 📦 Python packages list
+├── .env.example                 # 🔐 Env variables sample
+├── secure_file_share_collection.json   # 📬 Postman collection
+└── README.md                    # 📘 Project overview
+```
 
 yaml
 Copy
@@ -100,51 +122,35 @@ python manage.py runserver
 ⬇️ Download file using tokenized secure link
 
 🔐 JWT Authentication Flow
-
+```🔐 JWT Authentication Flow
 Endpoint	Method	Purpose
-
 /api/login/	POST	Login → JWT access+refresh
-
 /api/token/refresh/	POST	Refresh access token
-
 /api/signup/	POST	Signup (Client)
-
 /api/verify/<encoded_id>/	GET	Email verification
-
 /api/files/upload/	POST	Upload (OPS only)
-
 /api/files/list/	GET	List files (Client only)
-
 /api/files/generate-download-link/<id>/	POST	Generate secure download
-
 /api/files/download/secure/<token>/	GET	Final download from token
-
-🧠 Postman Environment Variables
-Use Postman Environment to store reusable values:
+```
 
 JSON 
 
-    {
+  Variables in POSTMAN
 
-  /"base_url": "http://127.0.0.1:8000"
-  
-  /"admin_email": "admin@example.com"
-  
-  /"admin_password": "admin123"
-  
-  /"ops_email": "ops1@example.com"
-  
-  /"ops_password": "ops123"
-  
-  /"client_email": "deepak10@example.com"
-  
-  /"client_password": "client123"
-  
-  /"uploaded_file_id": "
-  
-  /"secure_download_token"
-
-  }
+  ```
+{
+  "base_url": "http://127.0.0.1:8000",
+  "admin_email": "admin@example.com",
+  "admin_password": "admin123",
+  "ops_email": "ops1@example.com",
+  "ops_password": "ops123",
+  "client_email": "deepak10@example.com",
+  "client_password": "client123",
+  "uploaded_file_id": "",
+  "secure_download_token": ""
+}
+```
 
 👉 After file upload, capture the returned id and store in uploaded_file_id.
 👉 After generating the secure link, extract token from URL and store in secure_download_token.
