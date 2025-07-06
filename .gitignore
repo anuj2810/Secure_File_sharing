@@ -1,0 +1,53 @@
+# ⛔️ OS-level junk
+Thumbs.db
+ehthumbs.db
+.DS_Store
+*.log
+
+# 🪟 Windows system files
+desktop.ini
+$RECYCLE.BIN/
+
+# 🔐 Secrets & Environment files
+.env
+*.key
+*.pem
+
+# 🧠 Python-specific
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+
+# 🚀 Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.Python
+pip-log.txt
+
+# 🧪 Unit test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 🔧 VSCode/IDE files
+.vscode/
+.idea/
+
+# 🧱 Django specific
+*.sqlite3
+staticfiles/
+media/
+
+# 📦 Node.js (if used)
+node_modules/
+
+# 📸 Images/output folders
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.gif
+output/

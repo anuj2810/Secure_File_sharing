@@ -1,0 +1,660 @@
+{
+	"info": {
+		"_postman_id": "d2c927a2-fc0d-49a0-8afe-3c297082eeb4",
+		"name": "Secure file sharing API",
+		"description": "It is a collection which tastes all the API at once OK\n\nThis collection contains APIs for user authentication, file uploads, secure downloads, and listing functionality with token-based access.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44244259",
+		"_collection_link": "https://anujarya-7423601.postman.co/workspace/Anuj-Arya's-Workspace~5060f1d9-93c5-4474-8452-f49f1cf61103/collection/44244259-d2c927a2-fc0d-49a0-8afe-3c297082eeb4?action=share&source=collection_link&creator=44244259"
+	},
+	"item": [
+		{
+			"name": "Admin Section",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Admin Login API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const data = pm.response.json();\r",
+											"pm.collectionVariables.set(\"access_token\", data.access);\r",
+											"pm.collectionVariables.set(\"refresh_token\", data.refresh);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{admin_username}}\",\r\n  \"password\": \"{{admin_password}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/login/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "No-Auth",
+					"item": []
+				}
+			],
+			"description": "Admin of Panel"
+		},
+		{
+			"name": "OPS Section",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "OPS User Login API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const data = pm.response.json();\r",
+											"pm.collectionVariables.set(\"access_token\", data.access);\r",
+											"pm.collectionVariables.set(\"refresh_token\", data.refresh);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{ops_username}}\",\r\n  \"password\": \"{{ops_password}}\"\r\n  \r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/login/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "No-Auth",
+					"item": [
+						{
+							"name": "Upload List API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json();\r",
+											"pm.collectionVariables.set(\"file_id\", res.id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer  {{access_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "postman-cloud:///1f05a466-8140-4b40-b06b-9377e7d5f4e4"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/files/upload/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"files",
+										"upload",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Client Section",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "SignUP API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const token = response.verification_token.trim();  // Trim whitespace/newline\r",
+											"\r",
+											"pm.collectionVariables.set(\"verification_token\", token);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{client_username}}\",\r\n  \"email\": \"{{client_email}}\",\r\n  \"password\": \"{{client_password}}\",\r\n  \"user_type\": \"client\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/signup/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signup",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Email API",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/verify/{{verification_token}}/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"{{verification_token}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const data = pm.response.json();\r",
+											"pm.collectionVariables.set(\"access_token\", data.access);\r",
+											"pm.collectionVariables.set(\"refresh_token\", data.refresh);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{client_username}}\",\r\n  \"password\": \"{{client_password}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/login/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Token Refresh API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const data = pm.response.json();\r",
+											"pm.collectionVariables.set(\"access_token\", data.access);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"refresh\": \"{{refresh_token}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/token/refresh/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"token",
+										"refresh",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "No-Auth",
+					"item": [
+						{
+							"name": "List uploaded file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const file_id = pm.response.json()[0]?.id;\r",
+											"if (file_id) pm.collectionVariables.set(\"uploaded_file_id\", file_id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/files/list/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"files",
+										"list",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Files Download Link API",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const data = pm.response.json();\r",
+											"\r",
+											"if (data.download_link) {\r",
+											"    const link = data.download_link;\r",
+											"\r",
+											"    // Remove trailing slash if present\r",
+											"    const cleanedLink = link.endsWith('/') ? link.slice(0, -1) : link;\r",
+											"\r",
+											"    // Token is the last part after last '/'\r",
+											"    const token = cleanedLink.split('/').pop();\r",
+											"\r",
+											"    pm.collectionVariables.set(\"secure_download_token\", token);\r",
+											"    console.log(\"✅ Token extracted and saved:\", token);\r",
+											"} else {\r",
+											"    console.log(\"❌ No download_link in response\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/files/download/{{file_id}}/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"files",
+										"download",
+										"{{file_id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Download(Secure) Link API",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/files/download/secure/{{secure_download_token}}/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"files",
+										"download",
+										"secure",
+										"{{secure_download_token}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "default"
+		},
+		{
+			"key": "admin_username",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "admin_password",
+			"value": "admin123",
+			"type": "string"
+		},
+		{
+			"key": "ops_username",
+			"value": "ops1",
+			"type": "string"
+		},
+		{
+			"key": "ops_password",
+			"value": "ops123",
+			"type": "string"
+		},
+		{
+			"key": "client_username",
+			"value": "client1",
+			"type": "string"
+		},
+		{
+			"key": "client_email",
+			"value": "client1@example.com",
+			"type": "string"
+		},
+		{
+			"key": "client_password",
+			"value": "clienet@123",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "download_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "file_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secure_url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "verification_token",
+			"value": ""
+		},
+		{
+			"key": "uploaded_file_id",
+			"value": ""
+		},
+		{
+			"key": "secure_download_token",
+			"value": ""
+		},
+		{
+			"value": ""
+		}
+	]
+}
